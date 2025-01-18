@@ -1,0 +1,30 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	float a,b,c;
+	cout<<"Enter the no.s";
+	cin>>a>>b>>c;
+	if(a>b)
+	{
+		if(a>c)
+		{
+			cout<<"The no."<<a<<"is the largest";
+		}
+		else
+		{
+			cout<<"The no."<<c<<"is the largest";
+		}
+	}
+	else
+	{
+		if(b>c)
+		{
+			cout<<"The no."<<b<<"is the largest";
+		}
+		else
+		{
+			cout<<"The no."<<c<<"is the largest";
+		}
+	}
+}
