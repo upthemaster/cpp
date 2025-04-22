@@ -1,0 +1,98 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Book {
+private:
+    char* title;
+    char* author;
+    int pageCount;
+    bool formatType;
+    float* chapterPages;
+    int numChapters;
+
+public:
+    Book() : pageCount(0), formatType(false), numChapters(0) {
+        title = new char[1];
+        author = new char[1];
+        title[0] = '\0';
+        author[0] = '\0';
+        chapterPages = NULL;
+    }
+
+    Book(const char* t, const char* a, int pCount, bool format, int nChapters) {
+        title = new char[strlen(t) + 1];
+        strcpy(title, t);
+        author = new char[strlen(a) + 1];
+        strcpy(author, a);
+        pageCount = pCount;
+        formatType = format;
+        numChapters = nChapters;
+        chapterPages = new float[numChapters];
+        for (int i = 0; i < numChapters; i++) {
+            chapterPages[i] = static_cast<float>(pageCount) / numChapters;
+        }
+    }
+
+    Book(const Book& other) {
+        title = new char[strlen(other.title) + 1];
+        strcpy(title, other.title);
+        author = new char[strlen(other.author) + 1];
+        strcpy(author, other.author);
+        pageCount = other.pageCount;
+        formatType = other.formatType;
+        numChapters = other.numChapters;
+        chapterPages = new float[numChapters];
+        for (int i = 0; i < numChapters; i++) {
+            chapterPages[i] = other.chapterPages[i];
+        }
+    }
+
+    ~Book() {
+        delete[] title;
+        delete[] author;
+        delete[] chapterPages;
+    }
+
+    void modifyChapterPages(int chapterIndex, float newPageCount) {
+        if (chapterIndex >= 0 && chapterIndex < numChapters) {
+            chapterPages[chapterIndex] = newPageCount;
+        } else {
+            cout << "Invalid chapter index!" << endl;
+        }
+    }
+
+    void displayBookDetails() const {
+        cout << "\nBook Details:" << endl;
+        cout << "Title: " << title << endl;
+        cout << "Author: " << author << endl;
+        cout << "Pages: " << pageCount << endl;
+        cout << "Format: " << (formatType ? "Hardcover" : "Paperback") << endl;
+        cout << "Chapters: " << numChapters << endl;
+        cout << "Chapter Page Distribution: ";
+        for (int i = 0; i < numChapters; i++) {
+            cout << chapterPages[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    cout << "Creating book with default constructor..." << endl;
+    Book book1;
+    book1.displayBookDetails();
+
+    cout << "\nCreating book with parameterized constructor..." << endl;
+    Book book2("C++ Programming", "Bjarne Stroustrup", 500, true, 10);
+    book2.displayBookDetails();
+
+    cout << "\nCopying book2 to book3 using copy constructor..." << endl;
+    Book book3(book2);
+    book3.displayBookDetails();
+
+    cout << "\nModifying a chapter page count in book2..." << endl;
+    book2.modifyChapterPages(2, 60);
+    book2.displayBookDetails();
+
+    return 0;
+}
